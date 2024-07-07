@@ -1,5 +1,24 @@
 {
   "dependencies": {
     "express": "^4.19.2"
-  }
+  },
+  "name": "backend_70065",
+  "version": "1.0.0",
+  "description": "1era Pre-entrega",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "node --watch app.js",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Joamilibar/backend_70065.git"
+  },
+  "author": "Joamil Ibarra",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Joamilibar/backend_70065/issues"
+  },
+  "homepage": "https://github.com/Joamilibar/backend_70065#readme"
 }

@@ -11,11 +11,11 @@ router.get("/api/carts", (req, res) => {
 
 // POST /api/carts
 
-router.post("/api/carts", (req, res) => {
-    const cart = req.body;
-    carts.push(cart);
-    res.json({ message: "Carrito Agregado" });
-});
+// router.post("/api/carts", (req, res) => {
+//     const cart = req.body;
+//     carts.push(cart);
+//     res.json({ message: "Carrito Agregado" });
+// });
 
 module.exports = router;
 
