@@ -1,14 +1,14 @@
 {
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "uuid": "^10.0.0"
   },
   "name": "backend_70065",
   "version": "1.0.0",
   "description": "1era Pre-entrega",
   "main": "app.js",
-  "devDependencies": {},
   "scripts": {
-    "start": "node --watch app.js",
+    "start": "node --watch src/app.js",
     "test": "test"
   },
   "repository": {
