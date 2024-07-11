@@ -41,5 +41,3 @@ Endpoints para Productos:
         GET /:pid: Para obtener un producto específico por su id (pid).
 
 Manejo de Datos:
-
-    Asegurarte de tener un mecanismo para almacenar y recuperar los datos de los productos. Puedes usar un array en memoria para empezar o conectar a una base de datos como MongoDB.
