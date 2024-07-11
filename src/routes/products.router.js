@@ -1,5 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const path = require("path");
+
+
+
 
 let products = [
     { id: 1, title: "", decription: "", code: "", price: "", status: true, stock: "", category: "", thumbnails: [] },
