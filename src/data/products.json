@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "title": "Almohada Duvet King Premium",
+    "description": "Almohada de duvet tamaño 50x90 rellena de con duvet 850 FP",
+    "code": "AL85050x90P",
+    "price": 450000,
+    "status": true,
+    "stock": 46,
+    "category": "Almohadas",
+    "thumbnails": []
+  },
+  {
+    "id": 2,
+    "title": "Almohada Duvet King Premium",
+    "description": "Almohada de duvet tamaño 50x90 rellena de con duvet 850 FP",
+    "code": "AL85050x90P",
+    "price": 450000,
+    "status": true,
+    "stock": 46,
+    "category": "Almohadas",
+    "thumbnails": []
+  },
+  {
+    "id": 3,
+    "title": "Almohada Duvet King Premium",
+    "description": "Almohada de duvet tamaño 50x90 rellena de con duvet 850 FP",
+    "code": "AL85050x90P",
+    "price": 450000,
+    "status": true,
+    "stock": 46,
+    "category": "Almohadas",
+    "thumbnails": []
+  },
+  {
+    "id": 4,
+    "title": "Almohada Duvet King Premium",
+    "description": "Almohada de duvet tamaño 50x90 rellena de con duvet 850 FP",
+    "code": "AL85050x90P",
+    "price": 450000,
+    "status": true,
+    "stock": 46,
+    "category": "Almohadas",
+    "thumbnails": []
+  }
+]

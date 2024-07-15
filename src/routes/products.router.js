@@ -1,44 +1,46 @@
 const express = require("express");
 const router = express.Router();
 const path = require("path");
+const { prodFileManager } = require("../fileManager/manager");
 
 
-
+//const prodFilePath = path.join(__dirname, "../data/products.json");
 
 let products = [
-    { id: 1, title: "", decription: "", code: "", price: "", status: true, stock: "", category: "", thumbnails: [] },
-    { id: 2, title: "", decription: "", code: "", price: "", status: true, stock: "", category: "", thumbnails: [] },
-    // { id: 3, title: "", decription: "", code: "", price: "", status: true, stock: "", category: "", thumbnails: [] },
-    // { id: 4, title: "", decription: "", code: "", price: "", status: true, stock: "", category: "", thumbnails: [] },
-    // { id: 5, title: "", decription: "", code: "", price: "", status: true, stock: "", category: "", thumbnails: [] },
+    //{ id: 1, title: "", decription: "", code: "", price: "", status: true, stock: "", category: "", thumbnails: [] },
+    //{ id: 2, title: "", decription: "", code: "", price: "", status: true, stock: "", category: "", thumbnails: [] },
+
 ];
 
 // GET /api/products - Listar Productos
 
-router.get("/api/products", (req, res) => {
+router.get("/api/products", async (req, res) => {
+    const products = await prodFileManager.readFile();
     const limit = req.query.limit ? parseInt(req.query.limit) : products.length;
-    res.json(products.slice(0, limit));
-});
+    res.json(products);
+});;
 
 // GET /api/products/:id - Obtener producto por id
 
-router.get("/api/products/:pid", (req, res) => {
+router.get("/api/products/:pid", async (req, res) => {
+    const products = await prodFileManager.readFile();
     const productId = parseInt(req.params.pid);
     const product = products.find(product => product.id === productId);
-    if (productId) {
-        res.json(product);
+    if (product) {
+        res.status(200).json(product);
     } else {
         res.status(404).json({ message: "Producto no encontrado" });
     }
-    res.json(product);
+
+
 });
 
 
 // POST /api/products - Agregar producto
 
-router.post("/api/products", (req, res) => {
+router.post("/api/products", async (req, res) => {
     const { title, description, code, price, status = true, stock, category, thumbnails = [] } = req.body;
-
+    const products = await prodFileManager.readFile();
     // Validación de campos obligatorios
 
     if (!title || !description || !code || !price || !stock || !category) {
@@ -58,7 +60,8 @@ router.post("/api/products", (req, res) => {
         };
 
         products.push(newProduct);
-        res.json(201).json(newProduct);
+        await prodFileManager.writeFile(products);
+        res.status(201).json(newProduct);
 
     };
 });
@@ -66,7 +69,8 @@ router.post("/api/products", (req, res) => {
 
 // PUT/:pid - Actualizar producto por id
 
-router.put("/api/products/:pid", (req, res) => {
+router.put("/api/products/:pid", async (req, res) => {
+    const products = await prodFileManager.readFile();
     const productId = parseInt(req.params.pid);
     const product = products.find(product => product.id === productId);
     if (product) {
@@ -80,7 +84,8 @@ router.put("/api/products/:pid", (req, res) => {
         product.stock = stock;
         product.category = category;
         product.thumbnails = thumbnails;
-        res.json(product);
+        await prodFileManager.writeFile(products);
+        res.status(201).json(product);
     } else {
         res.status(404).json({ message: "Producto no actualizado" });
     }
@@ -89,15 +94,28 @@ router.put("/api/products/:pid", (req, res) => {
 
 // DELETE /api/products/:pid - Eliminar producto por id
 
-router.delete('/api/products/:pid', (req, res) => {
-    const productId = parseInt(req.params.pid);
+router.delete('/api/products/:pid', async (req, res) => {
 
-    products = products.filter((product) => product.id !== productId);
-    res.json({ message: `Producto con el id ${productId} eliminado correctamente` });
+    try {
+        let products = await prodFileManager.readFile();
+        const productId = parseInt(req.params.pid);
 
-}
+        const updatedProducts = products.filter((product) => product.id !== productId);
 
-)
+        if (!updatedProducts) {
+            res.status(404).json({ message: "Producto no encontrado" });
+        } else {
+            products.splice(updatedProducts - 1, 1);
+            await prodFileManager.writeFile(updatedProducts);
+            res.json({ message: `Producto con el id ${productId} eliminado correctamente` });
+
+        }
+    } catch (error) {
+        res.status(404).json({ message: "Producto no encontrado" });
+    }
+});
+
+
 
 
 module.exports = router;
