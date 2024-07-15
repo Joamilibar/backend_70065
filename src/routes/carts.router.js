@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const path = require("path");
-const cartsFileManager = require("../fileManager/manager");
+const { cartsFileManager } = require("../fileManager/carts.manager");
 
 
 let carts = [];
@@ -11,13 +11,15 @@ let products = [
 
 // GET /api/carts - Listar carritos
 
-router.get("/api/carts", (req, res) => {
+router.get("/api/carts", async (req, res) => {
+    const carts = await cartsFileManager.readFile();
     res.json(carts);
 });
 
 // POST /api/carts - Agregar carrito
 
-router.post("/api/carts", (req, res) => {
+router.post("/api/carts", async (req, res) => {
+    const carts = await cartsFileManager.readFile();
     //const { cart } = req.body;
     const newCart = {
         id: carts.length + 1,
@@ -28,12 +30,14 @@ router.post("/api/carts", (req, res) => {
         ]
     }
     carts.push(newCart);
+    await cartsFileManager.writeFile(carts);
     res.status(201).json(`Carrito con el id ${newCart.id} agregado correctamente`);
 });
 
 // GET /api/carts/:cid - Obtener carrito por id y listar productos
 
-router.get("/api/carts/:cid", (req, res) => {
+router.get("/api/carts/:cid", async (req, res) => {
+    const carts = await cartsFileManager.readFile();
     const cartId = parseInt(req.params.cid);
     const cart = carts.find(cart => cart.id === cartId);
     if (cart) {
@@ -44,10 +48,10 @@ router.get("/api/carts/:cid", (req, res) => {
 
 });
 
-// POST /api/carts/:cid/products/:pid - Agregar producto a carrito
+// POST /api/carts/:cid/products/:pid - Agregar producto a carrito por id
 
-router.post('/api/carts/:cid/products/:pid', (req, res) => {
-
+router.post('/api/carts/:cid/products/:pid', async (req, res) => {
+    const carts = await cartsFileManager.readFile();
     const cartId = parseInt(req.params.cid);
     const productId = parseInt(req.params.pid);
 
@@ -69,7 +73,9 @@ router.post('/api/carts/:cid/products/:pid', (req, res) => {
 
 
 
-    } res.status(201).json(cart);
+    }
+    await cartsFileManager.writeFile(carts);
+    res.status(201).json(cart);
 
 });
 module.exports = router;

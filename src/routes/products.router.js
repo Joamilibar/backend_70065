@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const path = require("path");
-const { prodFileManager } = require("../fileManager/manager");
+const { prodFileManager } = require("../fileManager/products.manager");
 
 
 //const prodFilePath = path.join(__dirname, "../data/products.json");
