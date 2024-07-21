@@ -48,7 +48,7 @@ router.post("/api/products", async (req, res) => {
     } else {
 
         const newProduct = {
-            id: products.length + 1,
+            id: products.length > 0 ? products[products.length - 1].id + 1 : 1,
             title,
             description,
             code,
