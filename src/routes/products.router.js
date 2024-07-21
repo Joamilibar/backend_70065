@@ -8,7 +8,6 @@ const { prodFileManager } = require("../fileManager/products.manager");
 
 let products = [
     //{ id: 1, title: "", decription: "", code: "", price: "", status: true, stock: "", category: "", thumbnails: [] },
-    //{ id: 2, title: "", decription: "", code: "", price: "", status: true, stock: "", category: "", thumbnails: [] },
 
 ];
 
