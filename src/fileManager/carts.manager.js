@@ -1,14 +1,20 @@
+// const path = require("path");
+import path from "path";
+// const fs = require("fs").promises;
+import fs from "fs/promises";
+import { fileURLToPath } from "url";
+import __dirname from "../utils.js"; // __dirname con ES modules
 
-const path = require("path");
-const fs = require("fs").promises;
 
 
-const cartsFilePath = path.join(__dirname, "../data/carts.json");
+
+
+const cartsFilePath = path.join(__dirname, "/data/carts.json");
 
 
 class CartsManager {
     constructor(filePath) {
-        this.filePath = path.join(__dirname, "../data/carts.json");
+        this.filePath = path.join(__dirname, "/data/carts.json");
     }
 
     // Función para leer archivo 
@@ -52,8 +58,10 @@ class CartsManager {
      */
 }
 
-module.exports = {
-    cartsFileManager: new CartsManager(cartsFilePath)
+// module.exports = {
+//     cartsFileManager: new CartsManager(cartsFilePath)
 
-};
+// };
+
+export const cartsFileManager = new CartsManager(cartsFilePath);
 

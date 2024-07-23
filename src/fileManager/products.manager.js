@@ -1,15 +1,16 @@
-
-const path = require("path");
-const fs = require("fs").promises;
-
-
-const prodFilePath = path.join(__dirname, "../data/products.json");
-
+// const path = require("path");
+import path from "path";
+// const fs = require("fs").promises;
+import fs from "fs/promises";
+import __dirname from "../utils.js"; // __dirname con ES modules
 
 
+const prodFilePath = path.join(__dirname, "/data/products.json");
+
+// Clase para manejar archivos
 class FileManager {
     constructor(filePath) {
-        this.filePath = path.join(__dirname, "../data/products.json");
+        this.filePath = path.join(__dirname, "/data/products.json");
     }
 
     // Función para leer archivo 
@@ -53,8 +54,10 @@ class FileManager {
      */
 }
 
-module.exports = {
-    prodFileManager: new FileManager(prodFilePath)
+// module.exports = {
+//     prodFileManager: new FileManager(prodFilePath)
 
-};
+// };
+
+export const prodFileManager = new FileManager(prodFilePath);
 

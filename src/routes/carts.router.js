@@ -1,8 +1,11 @@
-const express = require("express");
-const router = express.Router();
-const path = require("path");
-const { cartsFileManager } = require("../fileManager/carts.manager");
+// const express = require("express");
+import express from "express";
+// const path = require("path");
+import path from "path";
+// const { cartsFileManager } = require("../fileManager/carts.manager");
+import { cartsFileManager } from "../fileManager/carts.manager.js";
 
+const router = express.Router();
 
 let carts = [];
 let products = [
@@ -78,6 +81,8 @@ router.post('/api/carts/:cid/products/:pid', async (req, res) => {
     res.status(201).json(cart);
 
 });
-module.exports = router;
 
+//module.exports = router;
+
+export default router;
 

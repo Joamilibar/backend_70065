@@ -1,8 +1,15 @@
-const express = require("express");
-const router = express.Router();
-const path = require("path");
-const { prodFileManager } = require("../fileManager/products.manager");
+// const express = require("express");
+import express from "express";
+// const path = require("path");
+import path from "path";
+// const { prodFileManager } = require("../fileManager/products.manager");
+import { prodFileManager } from "../fileManager/products.manager.js";
+import fs from "fs/promises";
+import __dirname from "../utils.js";
+import { socketServer } from "../app.js";
 
+
+const router = express.Router();
 
 //const prodFilePath = path.join(__dirname, "../data/products.json");
 
@@ -11,12 +18,35 @@ let products = [
 
 ];
 
+// GET /products - Mostrar productos en vista
+router.get('/products', async (req, res) => {
+    try {
+        const products = await prodFileManager.readFile();
+        res.render('index', { title: 'Lista de Productos', products });
+    } catch (error) {
+        res.status(500).send('Error al obtener los productos');
+    }
+});
+
+//GET /realtimeproducts - Mostrar productos en tiempo real
+router.get('/realtimeproducts', async (req, res) => {
+    try {
+        const products = await prodFileManager.readFile();
+        res.render('index', { title: 'Lista de Productos en tiempo real', products });
+    } catch (error) {
+        res.status(500).send('Error al obtener los productos');
+    }
+});
+
+
 // GET /api/products - Listar Productos
 
 router.get("/api/products", async (req, res) => {
     const products = await prodFileManager.readFile();
     const limit = req.query.limit ? parseInt(req.query.limit) : products.length;
-    res.json(products);
+    res.render('index', { title: 'Ĺista de Productos', products });
+    //res.json(products.slice(0, limit));
+    //res.json(products);
 });;
 
 // GET /api/products/:id - Obtener producto por id
@@ -40,6 +70,7 @@ router.get("/api/products/:pid", async (req, res) => {
 router.post("/api/products", async (req, res) => {
     const { title, description, code, price, status = true, stock, category, thumbnails = [] } = req.body;
     const products = await prodFileManager.readFile();
+
     // Validación de campos obligatorios
 
     if (!title || !description || !code || !price || !stock || !category) {
@@ -47,7 +78,7 @@ router.post("/api/products", async (req, res) => {
     } else {
 
         const newProduct = {
-            id: products.length + 1,
+            id: products[products.length - 1].id + 1,
             title,
             description,
             code,
@@ -60,8 +91,11 @@ router.post("/api/products", async (req, res) => {
 
         products.push(newProduct);
         await prodFileManager.writeFile(products);
-        res.status(201).json(newProduct);
 
+        // Emitir evento de actualización de producto
+        socketServer.emit('productUpdate', products);
+
+        res.status(201).json(newProduct);
     };
 });
 
@@ -84,7 +118,12 @@ router.put("/api/products/:pid", async (req, res) => {
         product.category = category;
         product.thumbnails = thumbnails;
         await prodFileManager.writeFile(products);
+
+        // Emitir evento de actualización de producto
+        socketServer.emit('productUpdate', products);
+
         res.status(201).json(product);
+
     } else {
         res.status(404).json({ message: "Producto no actualizado" });
     }
@@ -106,6 +145,11 @@ router.delete('/api/products/:pid', async (req, res) => {
         } else {
             products.splice(updatedProducts - 1, 1);
             await prodFileManager.writeFile(updatedProducts);
+
+            // Emitir elemento de eliminación de producto
+            socketServer.emit('productUpdate', products);
+
+
             res.json({ message: `Producto con el id ${productId} eliminado correctamente` });
 
         }
@@ -117,4 +161,6 @@ router.delete('/api/products/:pid', async (req, res) => {
 
 
 
-module.exports = router;
+// module.exports = router;
+
+export default router;
