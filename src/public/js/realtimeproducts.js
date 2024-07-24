@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
         Código: ${product.code} <br />
         Stock: ${product.stock} <br />
         Categoría: ${product.category} `;
-            productList.appendChild(listItem);
 
+            productList.appendChild(listItem);
         });
 
     });

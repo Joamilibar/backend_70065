@@ -39,20 +39,20 @@ app.use("/", viewsRouter);
 
 
 // Ruta vista principal
-app.get("/api", (req, res) => {
+// app.get("/", (req, res) => {
 
-    //res.sendFile(path.join(__dirname, "views", "index.handlebars"));
-    res.render('index');
-});
+//     //res.sendFile(path.join(__dirname, "views", "index.handlebars"));
+//     res.render('index');
+// });
 
 // app.listen(PORT, () => {
 //     console.log(`Server is running on port ${PORT}`);
 // });
 
 // Ruta realtimeproducts
-app.get('/realtimeproducts', async (req, res) => {
-    const products = await prodFileManager.readFile();
-    res.render('realTimeProducts', {});
+app.get('/', (req, res) => {
+
+    res.render('realtimeproducts');
 })
 
 
@@ -63,10 +63,10 @@ const httpServer = app.listen(PORT, () => console.log(`Server is running on port
 // Instanciar el servidor
 export const socketServer = new Server(httpServer);
 
-let messaje = [];
 
 // Escuchar eventos de conexión
 socketServer.on('connection', async socket => {
+
     console.log('Nueva Conexión:', socket.id);
 
 
@@ -96,15 +96,10 @@ socketServer.on('connection', async socket => {
         socketServer.emit('productUpdate', products);
     });
 
-    socket.on('message', async (data) => {
-        console.log(data);
-        socket.emit('message', data);
-    });
+
 
     socket.on('message', (data) => {
         console.log(data);
-        //message.push(data);
-        //socket.emit('messageLogs', message);
         socketServer.emit('message', data);
     });
 
