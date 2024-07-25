@@ -10,8 +10,6 @@ import { prodFileManager } from "./fileManager/products.manager.js";
 import viewsRouter from "./routes/views.router.js";
 
 
-
-
 const app = express();
 const httpServer = http.createServer(app);
 export const socketServer = new Server(httpServer);

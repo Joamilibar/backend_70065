@@ -27,24 +27,30 @@
 <!-- Status -->
 
 <h4 align="center">
-	  Backend_70065 🚀 1era Pre-entrega...  
+	  Backend_70065 🚀 2da Pre-entrega...  
 </h4>
 
 <br>
 
-## 1era Pre-entrega de Proyecto final
+## 2da Pre-entrega de Proyecto Final
 
-Servidor con endpoints y servicios para gestionar productos y carritos de compra en e-commerce.
+Integraciónb de vistas y sockets al servidor actual(1era pre-entrega).
 
-- Configuración de servidor Express con escucha en puerto 8080
+Se creo formulario en la vista realTimeProducts para agregar productos, y mostrar los productos en tiempo real, cada uno con un botón para eliminarlos, según las consignas establecidas.
 
-### Organización:
+- Servidor Express con escucha en puerto 8080
+
+  <br>
+
+<img alt="imagen consigna1" src="./src/public/img/consigna2.png">
+<img alt="imagen consigna1" src="./src/public/img/consigna1.png">
+
+### Organización: Estructura de Archivos
 
     BACKEND_70065-root/
 
 ```
 └── 📁src
-    └── README.txt
     └── app.js
     └── 📁data
         └── carts.json
@@ -53,21 +59,38 @@ Servidor con endpoints y servicios para gestionar productos y carritos de compra
         └── carts.manager.js
         └── products.manager.js
     └── 📁public
+        └── 📁css
+        └── 📁img
+            └── consigna1.png
+            └── consigna2.png
         └── index.html
+        └── 📁js
+            └── index.js
+            └── realtimeproducts.js
     └── 📁routes
         └── carts.router.js
         └── products.router.js
+        └── views.router.js
+    └── utils.js
+    └── 📁views
+        └── index.handlebars
+        └── 📁layouts
+            └── main.handlebars
+        └── realTimeProducts.handlebars
 ```
 
 ### Creación de Router:
 
 - productsRouter
 - cartsRouter
+- viewsRouter
 
 ### Implementación de rutas para obtener los productos y carritos
 
 - GET /api/products
 - GET /api/carts
+- GET /products (sin websocket)
+- GET /realTimeProducts (con websocket)
 
 ### Routes:
 
@@ -75,6 +98,7 @@ Rutas creadas en directorio routes:
 
 - carts.router.js
 - products.router.js
+- views.router.js
 
 ### Endpoints:
 
@@ -84,6 +108,7 @@ Productos: (/api/products):
 
 Implementaron las siguientes rutas dentro del router de productos:
 
+- GET /products: para listar los productos sin websocket
 - GET /api/products: Para obtener todos los productos.
 - GET /api/products/:pid: Para obtener un producto específico por su id (pid).
 - POST /api/products: Para agregar productos.
@@ -111,6 +136,21 @@ Funciones asincronas:
 - async readFile
 - async writeFile
 
+### Configuración WebSocket
+
+- Servidor: app.js
+- Cliente: index.js
+- Vista: realTimeProducts.handlebars
+
+### Configuración Handlebars
+
+Vistas:
+
+- index.handlebars (lista productos agregados. Ruta: "/products")
+- realTimeProducts.handlebars (Form y Lista productos en tiempo real. Ruta: "/realTimeProducts")
+
+<br>
+
 ```
 
 
@@ -123,12 +163,16 @@ Tecnologías utilizadas:
 - [Git](<[Git](https://git-scm.com)>)
 - [Node.js](https://nodejs.org/en/)
 - [ExpressJS](https://expressjs.com/)
+- [express-handlebars](https://github.com/express-handlebars)
+- [socket.io](https://socket.io/)
+
+<br>
 
 ## Requirimientos
 
-Antes de iniciar, debes tener instalado: [Git](https://git-scm.com), [Node](https://nodejs.org/en/) and [ExpressJS](https://expressjs.com/)
+Antes de iniciar, debes tener instalado: [Git](https://git-scm.com), [Node](https://nodejs.org/en/), [ExpressJS](https://expressjs.com/), [express-handlebars](https://github.com/express-handlebars) y [socket.io](https://socket.io/).
 
-## Starting
+## Iniciando
 
 ```bash
 # Clonar este proyecto
@@ -148,7 +192,7 @@ $ npm start
 
 ## Video
 
-[1erPre-entrega_70065](https://www.loom.com/share/c8d92bb4d6fb4224923e2ce7b285d775?sid=176b18a3-f8ad-422a-80f7-3c722635686c)
+[2da Pre-entrega_70065](https://www.loom.com/share/d792549ee4dc44cbae15693c766f4777?sid=cfb7597a-5a65-4f5f-8fb3-d063d182e27c)
 
 ## License
 
