@@ -18,13 +18,14 @@ class FileManager {
     async readFile() {
         try {
             const data = await fs.readFile(this.filePath, "utf-8");
-            return JSON.parse(data);
+            return data ? JSON.parse(data) : [];
         } catch (error) {
             if (error.code === 'ENOENT') {
                 console.log("El archivo no existe");
                 return [];
             } else {
                 console.error("Error al leer el archivo", error);
+                return [];
                 throw error;
             }
         }
@@ -35,29 +36,15 @@ class FileManager {
     async writeFile(content) {
         try {
             await fs.writeFile(this.filePath, JSON.stringify(content, null, 2), "utf-8");
-            console.log("Datos agregados correctamente");
+            console.log("Datos actualizados correctamente");
         } catch (error) {
             console.error("Error al crear el archivo", error);
         }
     }
 
-    // Función para actualizar archivo
-    /* 
-        async appendFile(dataAdicional) {
-            try {
-                await fs.appendFile(this.filePath, dataAdicional);
-                console.log("Información actualizada correctamente");
-            } catch (error) {
-                console.error("Error al actualizar el archivo", error);
-            }
-        }
-     */
+
 }
 
-// module.exports = {
-//     prodFileManager: new FileManager(prodFilePath)
-
-// };
 
 export const prodFileManager = new FileManager(prodFilePath);
 

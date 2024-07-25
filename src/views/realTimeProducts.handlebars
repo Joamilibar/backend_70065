@@ -2,31 +2,45 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Productos en Tiempo Real</title>
+    <style>
+      form, ul { margin: 20px; } #product-list li { margin-bottom: 10px; }
+    </style>
   </head>
   <body>
     <div>
-      <h1>{{title}}</h1>
-      <ul id="product-list">
-        {{#each products}}
-          <li>
-            <strong>{{title}}</strong>
-            - ${{price}}<br />
-            Descripción:
-            {{sdescription}}<br />
-            Código:
-            {{code}}<br />
-            Stock:
-            {{stock}}<br />
-            Categoría:
-            {{category}}
-          </li>
-        {{/each}}
-      </ul>
+      <h1>Productos en Tiempo Real</h1>
     </div>
+    <form id="product-form">
+      <input type="text" id="title" placeholder="Título" required />
+      <input type="number" id="price" placeholder="Precio" required />
+      <input type="text" id="description" placeholder="Descripción" required />
+      <input type="text" id="code" placeholder="Código" required />
+      <input type="number" id="stock" placeholder="Stock" required />
+      <input type="text" id="category" placeholder="Categoría" required />
+      <button type="submit">Agregar Producto</button>
+    </form>
 
-    {{! <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/index.js"></script> }}
+    <ul id="product-list">
+      {{#each products}}
+        <li>
+          <strong>{{title}}</strong>
+          - ${{price}}<br />
+          Descripción:
+          {{sdescription}}<br />
+          Código:
+          {{code}}<br />
+          Stock:
+          {{stock}}<br />
+          Categoría:
+          {{category}}
+          <button class="delete-button" data-id="${id}">Eliminar</button>
+        </li>
+      {{/each}}
+    </ul>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="module" src="/js/index.js"></script>
 
   </body>
 </html>
