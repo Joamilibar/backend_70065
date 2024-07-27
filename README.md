@@ -142,7 +142,6 @@ Funciones asincronas:
 - Script: index.js
 - Vista:
   - realTimeProducts.handlebars
-  - index.handlebars
 
 ### Configuración Handlebars
 
