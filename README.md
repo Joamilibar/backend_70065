@@ -139,8 +139,10 @@ Funciones asincronas:
 ### Configuración WebSocket
 
 - Servidor: app.js
-- Cliente: index.js
-- Vista: realTimeProducts.handlebars
+- Script: index.js
+- Vista:
+  - realTimeProducts.handlebars
+  - index.handlebars
 
 ### Configuración Handlebars
 
@@ -160,7 +162,7 @@ Vistas:
 
 Tecnologías utilizadas:
 
-- [Git](<[Git](https://git-scm.com)>)
+- [Git](https://git-scm.com)
 - [Node.js](https://nodejs.org/en/)
 - [ExpressJS](https://expressjs.com/)
 - [express-handlebars](https://github.com/express-handlebars)
