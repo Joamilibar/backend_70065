@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const socket = io();
     let products = [];
 
+    // Emitir mensaje inicial
+    socket.emit('message', 'Conectado al WebSocket');
 
 
     form.addEventListener("submit", (evt) => {
@@ -61,8 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Agregar event listeners a los botones de eliminación
         document.querySelectorAll('.delete-button').forEach(button => {
-            button.addEventListener('click', (evt) => {
-                const productId = evt.target.getAttribute('data-id');
+            button.addEventListener('click', async (evt) => {
+                const productId = await evt.target.getAttribute('data-id');
                 console.log('Eliminando producto con id', productId);
                 socket.emit('deleteProduct', productId);
             });
@@ -71,24 +73,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Escuchar el evento de actualización de productos desde el servidor
 
-    socket.on('productUpdate', (updatedProducts) => {
+    socket.on('productUpdate', async (updatedProducts) => {
         console.log('Actualizando productos', updatedProducts);
-        products = updatedProducts;
+        products = await updatedProducts;
         renderProducts();
         //socketServer.emit('productUpdate', products);
     });
 
     // Escuchar el evento de eliminación de productos desde el servidor
-    socket.on('productDeleted', (deletedProductId) => {
+    socket.on('productDeleted', async (deletedProductId) => {
         console.log('Producto eliminado con id', deletedProductId);
-        products = products.filter(product => product.id !== parseInt(deletedProductId));
+        products = await products.filter(product => product.id !== parseInt(deletedProductId));
         renderProducts();
     });
 
-    // Emitir mensaje inicial
-    socket.emit('message', 'Conectado al WebSocket');
 
 });
+
 
 
 // document.getElementById('product-list').addEventListener('click', (evt) => {

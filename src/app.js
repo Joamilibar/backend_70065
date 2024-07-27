@@ -49,11 +49,15 @@ app.use("/", viewsRouter);
 // });
 
 // Ruta realtimeproducts
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
 
     res.render('realTimeProducts');
 })
 
+app.get('/', async (req, res) => {
+
+    res.render('index');
+})
 
 let messages = [];
 

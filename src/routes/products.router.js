@@ -9,7 +9,7 @@ import __dirname from "../utils.js";
 import { socketServer } from "../app.js";
 
 
-const router = express.Router();
+const apiRouter = express.Router();
 
 //const prodFilePath = path.join(__dirname, "../data/products.json");
 
@@ -18,30 +18,30 @@ let products = [
 
 ];
 
-// GET /products - Mostrar productos en vista
-router.get('/products', async (req, res) => {
-    try {
-        const products = await prodFileManager.readFile();
-        res.render('index', { title: 'Lista de Productos', products });
-    } catch (error) {
-        res.status(500).send('Error al obtener los productos');
-    }
-});
+// // GET /products - Mostrar productos en vista
+// router.get('/products', async (req, res) => {
+//     try {
+//         const products = await prodFileManager.readFile();
+//         res.render('index', { title: 'Lista de Productos', products });
+//     } catch (error) {
+//         res.status(500).send('Error al obtener los productos');
+//     }
+// });
 
-//GET /realtimeproducts - Mostrar productos en tiempo real
-router.get('/realtimeproducts', async (req, res) => {
-    try {
-        const products = await prodFileManager.readFile();
-        res.render('realTimeProducts', { title: 'Lista de Productos en tiempo real', products });
-    } catch (error) {
-        res.status(500).send('Error al obtener los productos');
-    }
-});
+// //GET /realtimeproducts - Mostrar productos en tiempo real
+// router.get('/realtimeproducts', async (req, res) => {
+//     try {
+//         const products = await prodFileManager.readFile();
+//         res.render('realTimeProducts', { title: 'Lista de Productos en tiempo real', products });
+//     } catch (error) {
+//         res.status(500).send('Error al obtener los productos');
+//     }
+// });
 
 
 // GET /api/products - Listar Productos
 
-router.get("/api/products", async (req, res) => {
+apiRouter.get("/api/products", async (req, res) => {
     const products = await prodFileManager.readFile();
     const limit = req.query.limit ? parseInt(req.query.limit) : products.length;
     res.render('index', { title: 'Ĺista de Productos', products });
@@ -51,7 +51,7 @@ router.get("/api/products", async (req, res) => {
 
 // GET /api/products/:id - Obtener producto por id
 
-router.get("/api/products/:pid", async (req, res) => {
+apiRouter.get("/api/products/:pid", async (req, res) => {
     const products = await prodFileManager.readFile();
     const productId = parseInt(req.params.pid);
     const product = products.find(product => product.id === productId);
@@ -67,7 +67,7 @@ router.get("/api/products/:pid", async (req, res) => {
 
 // POST /api/products - Agregar producto
 
-router.post("/api/products", async (req, res) => {
+apiRouter.post("/api/products", async (req, res) => {
     const { title, description, code, price, status = true, stock, category, thumbnails = [] } = req.body;
     const products = await prodFileManager.readFile();
 
@@ -102,7 +102,7 @@ router.post("/api/products", async (req, res) => {
 
 // PUT/:pid - Actualizar producto por id
 
-router.put("/api/products/:pid", async (req, res) => {
+apiRouter.put("/api/products/:pid", async (req, res) => {
     const products = await prodFileManager.readFile();
     const productId = parseInt(req.params.pid);
     const product = products.find(product => product.id === productId);
@@ -132,7 +132,7 @@ router.put("/api/products/:pid", async (req, res) => {
 
 // DELETE /api/products/:pid - Eliminar producto por id
 
-router.delete('/api/products/:pid', async (req, res) => {
+apiRouter.delete('/api/products/:pid', async (req, res) => {
 
     try {
         let products = await prodFileManager.readFile();
@@ -165,4 +165,4 @@ router.delete('/api/products/:pid', async (req, res) => {
 
 // module.exports = router;
 
-export default router;
+export default apiRouter;

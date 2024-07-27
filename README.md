@@ -1,5 +1,5 @@
 <div align="center" id="top"> 
-  <img src="./.github/app.gif" alt="Backend_70065" />
+  <img src="./src/public/img/avatar.png" alt="Backend_70065" />
 
 &#xa0;
 
@@ -11,11 +11,11 @@
 <p align="center">
   <img alt="Github top language" src="https://img.shields.io/github/languages/top/{{joamilibar}}/backend_70065?color=56BEB8">
 
-  <img alt="Github language count" src="https://img.shields.io/github/languages/count/{{YOUR_GITHUB_USERNAME}}/backend_70065?color=56BEB8">
+  <img alt="Github language count" src="https://img.shields.io/github/languages/count/{{joamilibar}}/backend_70065?color=56BEB8">
 
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/{{YOUR_GITHUB_USERNAME}}/backend_70065?color=56BEB8">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/{{joamilibar}}/backend_70065?color=56BEB8">
 
-  <img alt="License" src="https://img.shields.io/github/license/{{YOUR_GITHUB_USERNAME}}/backend_70065?color=56BEB8">
+  <img alt="License" src="https://img.shields.io/github/license/{{joamilibar}}/backend_70065?color=56BEB8">
  -->
   <!-- <img alt="Github issues" src="https://img.shields.io/github/issues/{{YOUR_GITHUB_USERNAME}}/backend_70065?color=56BEB8" /> -->
 
