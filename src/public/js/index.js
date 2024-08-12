@@ -92,13 +92,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-// document.getElementById('product-list').addEventListener('click', (evt) => {
-//     if (evt.target.classList.contains('delete')) {
-//         const productId = evt.target.getAttribute('data-id');
-//         console.log('Elminar prodcuto con id:', productId);
-//         socket.emit('deleteProdcut', parseInt(productId, 10));
-//     }
-// }
-//         );
-//     }
-// );

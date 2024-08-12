@@ -18,25 +18,7 @@ let products = [
 
 ];
 
-// // GET /products - Mostrar productos en vista
-// router.get('/products', async (req, res) => {
-//     try {
-//         const products = await prodFileManager.readFile();
-//         res.render('index', { title: 'Lista de Productos', products });
-//     } catch (error) {
-//         res.status(500).send('Error al obtener los productos');
-//     }
-// });
 
-// //GET /realtimeproducts - Mostrar productos en tiempo real
-// router.get('/realtimeproducts', async (req, res) => {
-//     try {
-//         const products = await prodFileManager.readFile();
-//         res.render('realTimeProducts', { title: 'Lista de Productos en tiempo real', products });
-//     } catch (error) {
-//         res.status(500).send('Error al obtener los productos');
-//     }
-// });
 
 
 // GET /api/products - Listar Productos
@@ -45,8 +27,7 @@ apiRouter.get("/api/products", async (req, res) => {
     const products = await prodFileManager.readFile();
     const limit = req.query.limit ? parseInt(req.query.limit) : products.length;
     res.render('index', { title: 'Ĺista de Productos', products });
-    //res.json(products.slice(0, limit));
-    //res.json(products);
+
 });;
 
 // GET /api/products/:id - Obtener producto por id

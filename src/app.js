@@ -37,16 +37,6 @@ app.use("/", cartsRouter);
 app.use("/", viewsRouter);
 
 
-// Ruta vista principal
-// app.get("/", (req, res) => {
-
-//     //res.sendFile(path.join(__dirname, "views", "index.handlebars"));
-//     res.render('index');
-// });
-
-// app.listen(PORT, () => {
-//     console.log(`Server is running on port ${PORT}`);
-// });
 
 // Ruta realtimeproducts
 app.get('/', async (req, res) => {
