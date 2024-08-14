@@ -8,6 +8,7 @@ import http from 'http';
 import __dirname from "./utils.js"; // __dirname con ES modules
 import { prodFileManager } from "./fileManager/products.manager.js";
 import viewsRouter from "./routes/views.router.js";
+import mongoose from "mongoose";
 
 
 const app = express();
@@ -20,6 +21,20 @@ const PORT = 8080;
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Conexión a la base de datos MongoDB
+const enviroment = async () => {
+    await mongoose.connect(
+        "mongodb+srv://joamilibarra:oK4kAi1laK4MdSwY@coder70065.llnur.mongodb.net/carrito?retryWrites=true&w=majority&appName=Coder70065")
+
+        .then(() => {
+            console.log("Conectado a la base de datos MongoDB");
+        })
+        .catch((error) => {
+            console.log("Error al conectar a la base de datos MongoDB", error);
+        });
+};
+enviroment();
 
 // Configurar handlebars para leer el contenido de los endpoints
 app.engine('handlebars', handlebars.engine({
@@ -36,17 +51,6 @@ app.use("/", productsRouter);
 app.use("/", cartsRouter);
 app.use("/", viewsRouter);
 
-
-// Ruta vista principal
-// app.get("/", (req, res) => {
-
-//     //res.sendFile(path.join(__dirname, "views", "index.handlebars"));
-//     res.render('index');
-// });
-
-// app.listen(PORT, () => {
-//     console.log(`Server is running on port ${PORT}`);
-// });
 
 // Ruta realtimeproducts
 app.get('/', async (req, res) => {

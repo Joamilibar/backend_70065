@@ -44,24 +44,9 @@ class CartsManager {
             console.error("Error al crear el archivo", error);
         }
     }
-
-    // Función para actualizar archivo
-    /* 
-        async appendFile(dataAdicional) {
-            try {
-                await fs.appendFile(this.filePath, dataAdicional);
-                console.log("Información actualizada correctamente");
-            } catch (error) {
-                console.error("Error al actualizar el archivo", error);
-            }
-        }
-     */
 }
 
-// module.exports = {
-//     cartsFileManager: new CartsManager(cartsFilePath)
 
-// };
 
 export const cartsFileManager = new CartsManager(cartsFilePath);
 
