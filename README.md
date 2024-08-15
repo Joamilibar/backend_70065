@@ -27,23 +27,27 @@
 <!-- Status -->
 
 <h4 align="center">
-	  Backend_70065 🚀 2da Pre-entrega...  
+	  Backend_70065 🚀 Entrega Proyecto Final Backend Avanzado I...  
 </h4>
 
 <br>
 
-## 2da Pre-entrega de Proyecto Final
+## Entrega Proyecto Final
 
-Integraciónb de vistas y sockets al servidor actual(1era pre-entrega).
+Integración de vistas, cambio de persisntencia fs a mongoose (mongoDB) y agregado de nuevos endpoints a la Api.
 
 Se creo formulario en la vista realTimeProducts para agregar productos, y mostrar los productos en tiempo real, cada uno con un botón para eliminarlos, según las consignas establecidas.
 
-- Servidor Express con escucha en puerto 8080
+Uso de métodos GET, PUT, DELETE, modificación de vista index.handlebars con limit, page, query, sort, devolviendo la data en el formato solicitado. todo según las siguientes consignas:
 
   <br>
 
-<img alt="imagen consigna1" src="./src/public/img/consigna2.png">
-<img alt="imagen consigna1" src="./src/public/img/consigna1.png">
+<img alt="imagen consigna1" src="./src/public/img/Consigna-01.webp">
+<img alt="imagen consigna2" src="./src/public/img/Consigna-02.webp">
+<img alt="imagen consigna3" src="./src/public/img/Consigna-03.webp">
+<img alt="imagen consigna4" src="./src/public/img/Consigna-04.webp">
+<img alt="imagen consigna5" src="./src/public/img/Consigna-05.webp">
+<img alt="imagen consigna6" src="./src/public/img/Consigna-06.webp">
 
 ### Organización: Estructura de Archivos
 
@@ -51,32 +55,42 @@ Se creo formulario en la vista realTimeProducts para agregar productos, y mostra
 
 ```
 └── 📁src
-    └── app.js
     └── 📁data
         └── carts.json
         └── products.json
     └── 📁fileManager
         └── carts.manager.js
         └── products.manager.js
+    └── 📁models
+        └── cart.model.js
+        └── product.model.js
     └── 📁public
         └── 📁css
         └── 📁img
-            └── consigna1.png
-            └── consigna2.png
-        └── index.html
+            └── avatar.png
+            └── Consigna-01.webp
+            └── Consigna-02.webp
+            └── Consigna-03.webp
+            └── Consigna-04.webp
+            └── Consigna-05.webp
+            └── Consigna-06.webp
         └── 📁js
             └── index.js
-            └── realtimeproducts.js
+            └── view.index.js
+        └── index.html
     └── 📁routes
         └── carts.router.js
         └── products.router.js
         └── views.router.js
-    └── utils.js
     └── 📁views
-        └── index.handlebars
         └── 📁layouts
             └── main.handlebars
+        └── cart.handlebars
+        └── index.handlebars
+        └── product.handlebars
         └── realTimeProducts.handlebars
+    └── app.js
+    └── utils.js
 ```
 
 ### Creación de Router:
@@ -89,7 +103,10 @@ Se creo formulario en la vista realTimeProducts para agregar productos, y mostra
 
 - GET /api/products
 - GET /api/carts
-- GET /products (sin websocket)
+- GET /products
+- GET /products/:pid
+- GET /carts
+- GET /carts/:cid
 - GET /realTimeProducts (con websocket)
 
 ### Routes:
@@ -108,33 +125,105 @@ Productos: (/api/products):
 
 Implementaron las siguientes rutas dentro del router de productos:
 
-- GET /products: para listar los productos sin websocket
-- GET /api/products: Para obtener todos los productos.
-- GET /api/products/:pid: Para obtener un producto específico por su id (pid).
-- POST /api/products: Para agregar productos.
-- POST /api/products/:pid: Acualizar/Modificar productos por id.
-- DELETE /api/products/:pid: Para elminar producto por id.
+- GET /products - vista index.handlebars
+- GET /api/products - Para obtener todos los productos (postman)
 
-Carts: (/api/carts)
+Ej: localhost:8080/api/products?category=Almohadas&sort=desc&availability=available
 
-- GET /api/carts: Para listar carritos.
-- GET /api/carts/:cid: Para obtener carrito por id y listar productos.
-- POST /api/carts: Para agregar nuevo carrito.
-- POST /api/carts/:cid/products/:pid: Para agregar producto a carrito por id.
+- DELETE /api/carts/:cid/products/:pid - Elimina del carrito el producto seleccionado
 
-Manejo de Datos:
+- PUT /api/carts/:cid - Actualiza el carrito con un arreglo de productos con el formato especificado
+
+Ej:
+
+Arreglo de productos enviados desde el body con el siguiente formato:
+
+```
+{
+  "products": [
+    { "product": "66ba7985e522c403f9e16b8a", "quantity": 19 },
+    { "product": "66ba742770d72511dca929db", "quantity": 21 }
+  ]
+}
+```
+
+PUT /api/carts/:cid/products/:pid - Actualiza solo la cantidad de productos, por cualquier cantidad pasada desde req.body
+
+Ej:
+
+Cantidad pasada desde rep.body con el siguiente formato:
+
+```
+{  "quantity": 15 }
+```
+
+DELETE /api/carts/:cid - Elimina todos los productos del carrito.
+
+GET /api/carts/:cid - Permite ver todas las porpiedades de cada producto en el carrito especificado mediante un populate. Aunque en el arreglo de products en el carrito solo se almacene el id y la cantidad.
+
+Ej:
+
+localhost:8080/api/carts/66bd93903f5245b16c42369e
+
+```
+{
+    "status": "success",
+    "payload": {
+        "_id": "66bd93903f5245b16c42369e",
+        "first_name": "Cecilia",
+        "last_name": "Trump",
+        "email": "ctrump@mail.com",
+        "products": [
+            {
+                "product": {
+                    "_id": "66ba7985e522c403f9e16b8a",
+                    "title": "Almohadon Duvet King Premium",
+                    "description": "Almohada de duvet tamaño 50x90 rellena de con duvet 850 FP",
+                    "code": "AL85050x90P",
+                    "price": 300000,
+                    "status": true,
+                    "stock": 46,
+                    "category": "Almohadas",
+                    "__v": 0
+                },
+                "quantity": 10,
+                "_id": "66be8673bebdb78eb834194f"
+            },
+            {
+                "product": {
+                    "_id": "66ba742770d72511dca929db",
+                    "title": "Almohadon Duvet King Premium Soft",
+                    "description": "Almohada de duvet tamaño 50x90 rellena de con duvet 850 FP",
+                    "code": "AL85050x90PS",
+                    "price": 150000,
+                    "status": true,
+                    "stock": 30,
+                    "category": "Almohadas",
+                    "thumbnails": []
+                },
+                "quantity": 15,
+                "_id": "66be8673bebdb78eb8341950"
+            }
+        ],
+        "timestamp": "2024-08-15T05:35:12.450Z",
+        "__v": 2
+    }
+}
+```
+
+### Vista
+
+#### index.handlebars
+
+Vista modificada para mostrar los productos y sus caracteristicas de la coleccion de products en mongo, cada producto con su botón para agregar al carrito, trabajando con script en view.index.js (/src/public/js/view.index.js)
+
+#### Vista para '/carts/:cid'
+
+Se creó la vista cart.handlebars para visualizar los productos pertenecientes a un carrtio especifico.
 
 ### Persistencia:
 
-Archivos File System creados en directorio fileManager:
-
-- products.manager.js
-- carts.manager.js
-
-Funciones asincronas:
-
-- async readFile
-- async writeFile
+Conexión con mongoose (mongoDB)
 
 ### Configuración WebSocket
 
@@ -145,17 +234,18 @@ Funciones asincronas:
 
 ### Configuración Handlebars
 
-Vistas:
+### Vistas:
 
-- index.handlebars (lista productos agregados. Ruta: "/products")
-- realTimeProducts.handlebars (Form y Lista productos en tiempo real. Ruta: "/realTimeProducts")
+- index.handlebars (lista productos de la colección products en la base de datos con botón de Agregar al carrito)
+  Ruta: '/products'
+
+- cart.handlebars (Lista los producto pertenecientes a un carrito)
+  Ruta: 'carts/:cid'
+
+- realTimeProducts.handlebars (Form y Lista productos en tiempo real)
+  Ruta: '/realTimeProducts'
 
 <br>
-
-```
-
-
-```
 
 ### Technologias
 
@@ -166,12 +256,14 @@ Tecnologías utilizadas:
 - [ExpressJS](https://expressjs.com/)
 - [express-handlebars](https://github.com/express-handlebars)
 - [socket.io](https://socket.io/)
+- [Mongoose](https://mongoosejs.com/)
+- [Mongoose-paginate-v2](https://www.npmjs.com/package/mongoose-paginate-v2)
 
 <br>
 
 ## Requirimientos
 
-Antes de iniciar, debes tener instalado: [Git](https://git-scm.com), [Node](https://nodejs.org/en/), [ExpressJS](https://expressjs.com/), [express-handlebars](https://github.com/express-handlebars) y [socket.io](https://socket.io/).
+Antes de iniciar, debes tener instalado: [Git](https://git-scm.com), [Node](https://nodejs.org/en/), [ExpressJS](https://expressjs.com/), [express-handlebars](https://github.com/express-handlebars), [socket.io](https://socket.io/), [Mongoose](https://mongoosejs.com/) y [Mongoose-paginate-v2](https://www.npmjs.com/package/mongoose-paginate-v2).
 
 ## Iniciando
 
@@ -191,17 +283,13 @@ $ npm start
 # El servidor inicia en: <http://localhost:8080>
 ```
 
-## Video
-
-[2da Pre-entrega_70065](https://www.loom.com/share/d792549ee4dc44cbae15693c766f4777?sid=cfb7597a-5a65-4f5f-8fb3-d063d182e27c)
-
 ## License
 
 #### Pública
 
 <!-- This project is under license from MIT. For more details, see the [LICENSE](LICENSE.md) file. -->
 
-by <a href="https://github.com/Joamilibar" target="_blank">`Joamil Ibarra`</a>
+by <a href="https://github.com/Joamilibar/backend_70065" target="_blank">`Joamil Ibarra`</a>
 
 &#xa0;
 

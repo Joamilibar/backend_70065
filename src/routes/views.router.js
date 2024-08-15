@@ -8,8 +8,6 @@ import mongoosePaginate from 'mongoose-paginate-v2';
 const router = express.Router();
 
 
-
-
 // Ruta Websocket realTimeProducts
 
 router.get('/realtimeproducts', async (req, res) => {
