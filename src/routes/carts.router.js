@@ -13,7 +13,7 @@ let products = [
 
 // GET /api/carts - Listar carritos
 
-router.get("/api/carts", async (req, res) => {
+router.get("/carts", async (req, res) => {
     const carts = await cartModel.find();
     res.send({ status: "success", payload: carts });
 
@@ -41,11 +41,11 @@ router.get("/api/carts", async (req, res) => {
 
 // GET /api/carts/:cid - Obtener carrito por id y listar productos
 
-router.get("/api/carts/:cid", async (req, res) => {
+router.get("/carts/:cid", async (req, res) => {
 
     const { cid } = req.params;
     try {
-        let cart = await cartModel.findOne({ _id: cid });
+        let cart = await cartModel.findOne({ _id: cid }).populate("products.product");
         res.send({ status: "success", payload: cart });
     } catch (error) {
         res.send({ status: "error", payload: "El carrito no existe" });
@@ -57,7 +57,7 @@ router.get("/api/carts/:cid", async (req, res) => {
 
 // PUT /api/carts/:cid - Actualizar carrito por id
 
-router.put("/api/carts/:cid", async (req, res) => {
+router.put("/carts/:cid", async (req, res) => {
     const { cid } = req.params;
     const { products } = req.body;
 
@@ -83,7 +83,7 @@ router.put("/api/carts/:cid", async (req, res) => {
 
 // PUT /api/carts/:cid/products/:pid - Actualizar producto(s) en carrito por id
 
-router.put('/api/carts/:cid/products/:pid', async (req, res) => {
+router.put('/carts/:cid/products/:pid', async (req, res) => {
 
     const { cid, pid } = req.params;
     const { quantity } = req.body;
@@ -97,6 +97,7 @@ router.put('/api/carts/:cid/products/:pid', async (req, res) => {
 
 
         if (!cart) {
+
             return res.send({ status: "error", payload: "El carrito no existe" });
         }
 
@@ -105,13 +106,13 @@ router.put('/api/carts/:cid/products/:pid', async (req, res) => {
         console.log("Indice Producto en carrito: ", productIndex)
 
 
-        // Verifico si el producto ya existe en el carrito
+        //Verifico si el producto ya existe en el carrito
         if (productIndex === -1) {
-            res.send({ status: "error", payload: "El producto no está en el carrito" });
+            // return res.send({ status: "error", payload: "El producto no está en el carrito" });
+            cart.products.push({ product: pid, quantity: quantity });
 
         }
 
-        // Actualizar cantidad del producto
         cart.products[productIndex].quantity = quantity;
 
         // Actualizar cambios en base de datos
@@ -129,7 +130,7 @@ router.put('/api/carts/:cid/products/:pid', async (req, res) => {
 
 // Crear carrito en Mongo
 
-router.post("/api/carts", async (req, res) => {
+router.post("/carts", async (req, res) => {
     let { first_name = "Cecilia", last_name = "Trump", email = "ctrump@mail.com" } = req.body;
     if (!first_name || !last_name || !email) {
         res.send({ status: "error", payload: "Faltan parámetros obligatorios" });
@@ -152,7 +153,7 @@ router.post("/api/carts", async (req, res) => {
 
 // DELETE /api/carts/:cid/products/:pid - Eliminar producto de carrito por id
 
-router.delete("/api/carts/:cid/products/:pid", async (req, res) => {
+router.delete("/carts/:cid/products/:pid", async (req, res) => {
 
     const { cid, pid } = req.params;
 
@@ -181,7 +182,7 @@ router.delete("/api/carts/:cid/products/:pid", async (req, res) => {
 
 // DELETE /api/carts/:cid - Eliminar todos los productos del carrito (id)
 
-router.delete("/api/carts/:cid", async (req, res) => {
+router.delete("/carts/:cid", async (req, res) => {
     const { cid } = req.params;
 
     try {

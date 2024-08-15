@@ -21,7 +21,7 @@ let products = [
 
 // GET /api/products - Listar Productos
 
-apiRouter.get("/api/products", async (req, res) => {
+apiRouter.get("/products", async (req, res) => {
     try {
         let { limit = 10, page = 1, sort, query, category, availability } = req.query;
 
@@ -75,7 +75,7 @@ apiRouter.get("/api/products", async (req, res) => {
 
 // GET /api/products/:id - Obtener producto por id
 
-apiRouter.get("/api/products/:pid", async (req, res) => {
+apiRouter.get("/products/:pid", async (req, res) => {
 
 
     // const products = await prodFileManager.readFile();
@@ -93,7 +93,7 @@ apiRouter.get("/api/products/:pid", async (req, res) => {
 
 // POST /api/products - Agregar producto
 
-apiRouter.post("/api/products", async (req, res) => {
+apiRouter.post("/products", async (req, res) => {
 
 
     const { title, description, code, price, status = true, stock, category, thumbnails = [] } = req.body;
@@ -143,7 +143,7 @@ apiRouter.post("/api/products", async (req, res) => {
 
 // PUT/:pid - Actualizar producto por id
 
-apiRouter.put("/api/products/:pid", async (req, res) => {
+apiRouter.put("/products/:pid", async (req, res) => {
     const products = await prodFileManager.readFile();
     const productId = parseInt(req.params.pid);
     const product = products.find(product => product.id === productId);
@@ -173,7 +173,7 @@ apiRouter.put("/api/products/:pid", async (req, res) => {
 
 // DELETE /api/products/:pid - Eliminar producto por id
 
-apiRouter.delete('/api/products/:pid', async (req, res) => {
+apiRouter.delete('/products/:pid', async (req, res) => {
 
     try {
         let products = await prodFileManager.readFile();

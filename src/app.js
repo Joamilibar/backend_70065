@@ -3,6 +3,7 @@ import path from "path";
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
 import handlebars from 'express-handlebars';
+import exphbs from 'express-handlebars';
 import { Server } from 'socket.io';
 import http from 'http';
 import __dirname from "./utils.js"; // __dirname con ES modules
@@ -36,20 +37,34 @@ const enviroment = async () => {
 };
 enviroment();
 
-// Configurar handlebars para leer el contenido de los endpoints
-app.engine('handlebars', handlebars.engine({
-    //defaultLayout: 'main', // Se establece main.handlebars por defecto
-}));
-app.set('views', __dirname + '/views') // TODO
-app.set('view engine', 'handlebars')
+// Configuración de Handlebars
+const hbs = exphbs.create({
+    helpers: {
+        gt: (a, b) => a > b,
+        lt: (a, b) => a < b,
+        add: (a, b) => a + b,
+        subtract: (a, b) => a - b
+    },
+    extname: '.handlebars',
+    defaultLayout: 'main',
+    layoutsDir: path.join(__dirname, 'views/layouts'),
+    partialsDir: path.join(__dirname, 'views/partials'),
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true,
+        allowProtoMethodsByDefault: true
+    }
+});
 
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
+app.set('views', path.join(__dirname, 'views')) // TODO
 
 app.use(express.static(path.join(__dirname, "public")));
 
 // Rutas
-app.use("/", productsRouter);
-app.use("/", cartsRouter);
 app.use("/", viewsRouter);
+app.use("/api", productsRouter);
+app.use("/api", cartsRouter);
 
 
 // Ruta realtimeproducts
@@ -58,10 +73,10 @@ app.get('/', async (req, res) => {
     res.render('realTimeProducts');
 })
 
-app.get('/', async (req, res) => {
+// app.get('/', async (req, res) => {
 
-    res.render('index');
-})
+//     res.render('index');
+// })
 
 let messages = [];
 
